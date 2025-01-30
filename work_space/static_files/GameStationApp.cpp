@@ -33,9 +33,9 @@ int main()
 
             players[!choice] = new ConnectFourPlayer(choice);
             if (mode == 1)
-                players[choice] = new RandomPlayer(!choice);
+                players[choice] = new RandomPlayer();
             else
-                players[choice] = new AI_Player_V1(board, !choice);
+                players[choice] = new AI_Player_V1(board);
         }
         GameManager game_manager(board, players);
         game_manager.run();

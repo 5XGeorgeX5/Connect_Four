@@ -238,3 +238,89 @@ std::string ConnectFourBoard::to_string()
     }
     return s;
 }
+
+int ConnectFourBoard::heuristic2()
+{
+    int scores[2] = {0};
+    int index;
+    for (int i = 0; i < 6; ++i)
+    {
+        for (int j = 0; j < 7; ++j)
+        {
+            if (!board[i][j])
+            {
+                continue;
+            }
+            index = board[i][j] / 88;
+            auto updateScores = [&](int i1, int j1, int i2, int j2, int i3, int j3)
+            {
+                int sum = board[i + i1][j + j1] + board[i + i2][j + j2] + board[i + i3][j + j3];
+                if (sum % board[i][j] == 0)
+                {
+                    sum /= board[i][j];
+                    sum += 1;
+                    scores[index] += (sum * sum);
+                }
+            };
+            if (j < 4)
+            {
+                updateScores(0, 1, 0, 2, 0, 3);
+            }
+            if (j > 2)
+            {
+                updateScores(0, -1, 0, -2, 0, -3);
+            }
+            if (j > 0 && j < 5)
+            {
+                updateScores(0, -1, 0, 1, 0, 2);
+            }
+            if (j > 1 && j < 6)
+            {
+                updateScores(0, -1, 0, -2, 0, 1);
+            }
+            if (i < 3)
+            {
+                updateScores(1, 0, 2, 0, 3, 0);
+                updateScores(1, 0, 2, 0, 3, 0);
+                updateScores(1, 0, 2, 0, 3, 0);
+            }
+            if (i < 3 && j < 4)
+            {
+                updateScores(1, 1, 2, 2, 3, 3);
+            }
+            if (i > 2 && j > 2)
+            {
+                updateScores(-1, -1, -2, -2, -3, -3);
+            }
+            if (i < 3 && j > 2)
+            {
+                updateScores(1, -1, 2, -2, 3, -3);
+            }
+            if (i > 2 && j < 4)
+            {
+                updateScores(-1, 1, -2, 2, -3, 3);
+            }
+            if (i > 0 && i < 4 && j > 0 && j < 5)
+            {
+                updateScores(-1, -1, 1, 1, 2, 2);
+            }
+            if (i > 0 && i < 4 && j > 1 && j < 6)
+            {
+                updateScores(-1, 1, 1, -1, 2, -2);
+            }
+            if (i > 1 && i < 5 && j > 1 && j < 6)
+            {
+                updateScores(-1, -1, -2, -2, 1, 1);
+            }
+            if (i > 1 && i < 5 && j > 1 && j < 5)
+            {
+                updateScores(-1, 1, -2, 2, 1, -1);
+            }
+        }
+    }
+    if (n_moves & 1)
+    {
+        return (scores[0] - scores[1]);
+    }
+    return (scores[1] - scores[0]);
+}

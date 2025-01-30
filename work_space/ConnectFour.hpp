@@ -32,6 +32,8 @@ public:
 
     int heuristic();
 
+    int heuristic2();
+
     std::string to_string();
 };
 
@@ -42,20 +44,18 @@ class Player
 {
 protected:
     std::string name;
-    bool isFirst;
 
 public:
-    Player(bool isFirst);
-
     virtual int get_move() = 0;
 
-    std::string to_string();
-
-    char get_symbol();
+    std::string get_name();
 };
 
 class ConnectFourPlayer : public Player
 {
+private:
+    bool isFirst;
+
 public:
     ConnectFourPlayer(bool isFirst);
 
@@ -71,7 +71,7 @@ private:
 
 public:
     // Take a symbol and pass it to parent
-    RandomPlayer(bool isFirst);
+    RandomPlayer();
     // Generate a random move
     int get_move();
 };
@@ -88,7 +88,7 @@ private:
 
 public:
     // Take a symbol and pass it to parent
-    AI_Player_V1(ConnectFourBoard *, bool isFirst);
+    AI_Player_V1(ConnectFourBoard *);
     // Generate best move move
     int get_move();
 };
@@ -105,7 +105,24 @@ private:
 
 public:
     // Take a symbol and pass it to parent
-    AI_Player_V2(ConnectFourBoard *, bool isFirst);
+    AI_Player_V2(ConnectFourBoard *);
+    // Generate best move move
+    int get_move();
+};
+
+class AI_Player_V3 : public Player
+{
+private:
+    ConnectFourBoard *boardPtr;
+    int minimax(int alpha, int beta, int depth, int ans[]);
+    std::unordered_map<std::string, int> myMap;
+    bool cut;
+    unsigned long long runs = 0;
+    int arr[7];
+
+public:
+    // Take a symbol and pass it to parent
+    AI_Player_V3(ConnectFourBoard *);
     // Generate best move move
     int get_move();
 };

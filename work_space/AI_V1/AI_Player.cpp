@@ -1,6 +1,6 @@
 #include "../ConnectFour.hpp"
 
-AI_Player_V1::AI_Player_V1(ConnectFourBoard *bPtr, bool isFirst) : Player(isFirst)
+AI_Player_V1::AI_Player_V1(ConnectFourBoard *bPtr)
 {
     boardPtr = bPtr;
     this->name = "AI Computer Player";
@@ -77,6 +77,7 @@ int AI_Player_V1::minimax(bool player, int alpha, int beta, int depth, int ans[]
 
 int AI_Player_V1::get_move()
 {
+    bool isFirst = !(boardPtr->moves() & 1);
     int ans[2];
     ans[1] = 5000 - 10000 * (isFirst);
     minimax(isFirst, -5000, 5000, 0, ans);

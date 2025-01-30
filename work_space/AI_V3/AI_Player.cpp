@@ -1,6 +1,6 @@
 #include "../ConnectFour.hpp"
 
-AI_Player_V2::AI_Player_V2(ConnectFourBoard *bPtr)
+AI_Player_V3::AI_Player_V3(ConnectFourBoard *bPtr)
 {
     boardPtr = bPtr;
     this->name = "AI Computer Player";
@@ -14,20 +14,20 @@ AI_Player_V2::AI_Player_V2(ConnectFourBoard *bPtr)
     }
 }
 
-int AI_Player_V2::minimax(bool player, int alpha, int beta, int depth, int ans[])
+int AI_Player_V3::minimax(int alpha, int beta, int depth, int ans[])
 {
     ++runs;
     cut = false;
     int value, result;
     if (boardPtr->is_winner())
-        return ((player ? -1 : 1) * (5000 - boardPtr->moves()));
+        return boardPtr->moves() - 5000;
     if (boardPtr->moves() == 42)
         return 0;
     if (depth == 10)
     {
-        return (boardPtr->heuristic());
+        return (boardPtr->heuristic2());
     }
-    result = (player ? -5000 : 5000);
+    result = -5000;
 
     for (int i = 0; i < 7; i++)
     {
@@ -40,24 +40,16 @@ int AI_Player_V2::minimax(bool player, int alpha, int beta, int depth, int ans[]
             }
             else
             {
-                value = minimax(!player, alpha, beta, depth + 1, ans);
+                value = -minimax(-beta, -alpha, depth + 1, ans);
                 if (!cut)
                 {
                     myMap[state] = value;
                 }
             }
             boardPtr->reset(arr[i]);
-            if (player)
-            {
-                result = std::max(result, value);
-                alpha = std::max(alpha, value);
-            }
-            else
-            {
-                result = std::min(result, value);
-                beta = std::min(beta, value);
-            }
-            if (depth == 0 && ans[1] != value && ((ans[1] > value) ^ player))
+            result = std::max(result, value);
+            alpha = std::max(alpha, value);
+            if (depth == 0 && ans[1] < value)
             {
                 ans[1] = value;
                 ans[0] = arr[i];
@@ -65,7 +57,7 @@ int AI_Player_V2::minimax(bool player, int alpha, int beta, int depth, int ans[]
             if (beta <= alpha)
             {
                 cut = true;
-                return (result);
+                return (alpha);
             }
         }
     }
@@ -73,12 +65,11 @@ int AI_Player_V2::minimax(bool player, int alpha, int beta, int depth, int ans[]
     return (result);
 }
 
-int AI_Player_V2::get_move()
+int AI_Player_V3::get_move()
 {
-    bool isFirst = !(boardPtr->moves() & 1);
     myMap.clear();
     int ans[2];
-    ans[1] = 5000 - 10000 * (isFirst);
-    minimax(isFirst, -5000, 5000, 0, ans);
+    ans[1] = -5000;
+    minimax(-5000, 5000, 0, ans);
     return ans[0];
 }

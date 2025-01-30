@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include "../ConnectFourBoard.cpp"
-#include "../AI_V1/AI_Player.cpp"
+#include "../AI_V3/AI_Player.cpp"
 #include "../AI_V2/AI_Player.cpp"
 #include "RandomPlayer.cpp"
 #include "GameManager.cpp"
@@ -68,13 +68,13 @@ int main()
     ConnectFourBoard *board = new ConnectFourBoard();
     Player *players[2];
 
-    players[0] = new AI_Player_V1(board, true);
-    players[1] = new AI_Player_V2(board, false);
+    players[0] = new AI_Player_V2(board);
+    players[1] = new AI_Player_V3(board);
     test(board, players);
     cout << "\n\n\n";
 
     board = new ConnectFourBoard();
-    players[0] = new AI_Player_V2(board, true);
-    players[1] = new AI_Player_V1(board, false);
+    players[0] = new AI_Player_V3(board);
+    players[1] = new AI_Player_V2(board);
     test(board, players);
 }

@@ -23,7 +23,7 @@ void GameManager::run()
             boardPtr->display_board();
             if (boardPtr->is_winner())
             {
-                std::cout << players[i]->to_string() << " wins\n";
+                std::cout << players[i]->get_name() << " wins\n";
                 return;
             }
             if (boardPtr->is_draw())
