@@ -5,13 +5,6 @@ AI_Player_V3::AI_Player_V3(ConnectFourBoard *bPtr)
     boardPtr = bPtr;
     this->name = "AI Computer Player";
     std::cout << "My names is " << name << '\n';
-    int mid = 3, index = 1;
-    arr[0] = mid;
-    for (int i = 1; i <= mid; i++)
-    {
-        arr[index++] = mid + i;
-        arr[index++] = mid - i;
-    }
 }
 
 int AI_Player_V3::minimax(int alpha, int beta, int depth, int ans[])
@@ -31,7 +24,7 @@ int AI_Player_V3::minimax(int alpha, int beta, int depth, int ans[])
 
     for (int i = 0; i < 7; i++)
     {
-        if (boardPtr->update_board(arr[i]))
+        if (boardPtr->update_board(searchOrder[i]))
         {
             std::string state = boardPtr->to_string();
             if (myMap.count(state))
@@ -46,13 +39,13 @@ int AI_Player_V3::minimax(int alpha, int beta, int depth, int ans[])
                     myMap[state] = value;
                 }
             }
-            boardPtr->reset(arr[i]);
+            boardPtr->reset(searchOrder[i]);
             result = std::max(result, value);
             alpha = std::max(alpha, value);
             if (depth == 0 && ans[1] < value)
             {
                 ans[1] = value;
-                ans[0] = arr[i];
+                ans[0] = searchOrder[i];
             }
             if (beta <= alpha)
             {

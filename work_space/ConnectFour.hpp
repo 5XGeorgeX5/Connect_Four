@@ -118,7 +118,7 @@ private:
     std::unordered_map<std::string, int> myMap;
     bool cut;
     unsigned long long runs = 0;
-    int arr[7];
+    int searchOrder[7] = {3, 4, 2, 5, 1, 6, 0};
 
 public:
     // Take a symbol and pass it to parent
