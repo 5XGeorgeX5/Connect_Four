@@ -9,7 +9,7 @@ class ConnectFourBoard
 {
 private:
     int n_rows, n_cols;
-    char **board;
+    char board[6][7];
     int n_moves = 0;
     int lowest_row[7];
 
@@ -33,8 +33,6 @@ public:
     int heuristic();
 
     std::string to_string();
-
-    ~ConnectFourBoard();
 };
 
 // Players

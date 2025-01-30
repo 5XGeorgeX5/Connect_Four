@@ -6,10 +6,12 @@
 #include "RandomPlayer.cpp"
 #include "GameManager.cpp"
 #include "Player.cpp"
+#include <fstream>
 using namespace std;
 
 void test(ConnectFourBoard *board, Player *players[2])
 {
+    std::ofstream outFile("log.txt", std::ios::app);
     bool finished = false;
 
     chrono::milliseconds averages[2] = {0ms, 0ms};
@@ -50,15 +52,15 @@ void test(ConnectFourBoard *board, Player *players[2])
     averages[0] /= (board->moves() + 1) / 2;
     averages[1] /= board->moves() / 2;
 
-    cout << "Player 1:\n";
-    cout << "Average: " << averages[0].count() << "ms\n";
-    cout << "Max: " << maxes[0].count() << "ms\n";
-    cout << "Min: " << mins[0].count() << "ms\n";
+    outFile << "Player 1:\n";
+    outFile << "Average: " << averages[0].count() << "ms\n";
+    outFile << "Max: " << maxes[0].count() << "ms\n";
+    outFile << "Min: " << mins[0].count() << "ms\n";
 
-    cout << "\nPlayer 2:\n";
-    cout << "Average: " << averages[1].count() << "ms\n";
-    cout << "Max: " << maxes[1].count() << "ms\n";
-    cout << "Min: " << mins[1].count() << "ms\n";
+    outFile << "\nPlayer 2:\n";
+    outFile << "Average: " << averages[1].count() << "ms\n";
+    outFile << "Max: " << maxes[1].count() << "ms\n";
+    outFile << "Min: " << mins[1].count() << "ms\n\n\n";
 }
 
 int main()

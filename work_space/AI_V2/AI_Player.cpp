@@ -21,11 +21,9 @@ int AI_Player_V2::minimax(bool player, int alpha, int beta, int depth, int ans[]
     int value, result;
     if (boardPtr->is_winner())
         return ((player ? -1 : 1) * (5000 - boardPtr->moves()));
-    if (boardPtr->is_draw())
+    if (boardPtr->moves() == 42)
         return 0;
-    if (boardPtr->game_is_over())
-        return ((boardPtr->is_winner() ? 1 : -1) * (5000 - boardPtr->moves()));
-    if (depth == 9)
+    if (depth == 10)
     {
         return (boardPtr->heuristic());
     }
