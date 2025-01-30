@@ -77,6 +77,7 @@ int AI_Player_V2::minimax(bool player, int alpha, int beta, int depth, int ans[]
 
 int AI_Player_V2::get_move()
 {
+    myMap.clear();
     int ans[2];
     ans[1] = 5000 - 10000 * (isFirst);
     minimax(isFirst, -5000, 5000, 0, ans);

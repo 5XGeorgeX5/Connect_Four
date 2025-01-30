@@ -111,6 +111,7 @@ public:
     // Generate best move move
     int get_move();
 };
+
 ///////////////////////////////////////////
 class GameManager
 {
