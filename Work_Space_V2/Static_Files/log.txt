@@ -1,0 +1,22 @@
+Player 1:
+Average: 30ms
+Max: 111ms
+Min: 0ms
+
+Player 2:
+Average: 50ms
+Max: 170ms
+Min: 0ms
+
+
+Player 1:
+Average: 30ms
+Max: 108ms
+Min: 0ms
+
+Player 2:
+Average: 52ms
+Max: 175ms
+Min: 0ms
+
+
