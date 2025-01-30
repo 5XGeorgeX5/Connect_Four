@@ -16,7 +16,7 @@ int AI_Player_V1::minimax(int alpha, int beta, int depth, int ans[])
         return boardPtr->moves() - 5000;
     if (boardPtr->moves() == 42)
         return 0;
-    if (depth == 10)
+    if (depth == 11)
     {
         return (boardPtr->heuristic());
     }
