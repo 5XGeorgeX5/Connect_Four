@@ -1,30 +1,30 @@
 AI Computer Player V1 wins
 AI Computer Player V1:
-Average: 248ms
-Max: 1868ms
+Average: 256ms
+Max: 1840ms
 Min: 0ms
-Runs: 48010334
+Runs: 2869164
 
 AI Computer Player V1:
-Average: 128ms
-Max: 784ms
+Average: 140ms
+Max: 841ms
 Min: 0ms
-Runs: 36416238
+Runs: 2189672
 
 ========================
 
 AI Computer Player V1 wins
 AI Computer Player V1:
-Average: 249ms
-Max: 1907ms
+Average: 264ms
+Max: 2025ms
 Min: 0ms
-Runs: 48010334
+Runs: 2869164
 
 AI Computer Player V1:
-Average: 130ms
-Max: 829ms
+Average: 134ms
+Max: 833ms
 Min: 0ms
-Runs: 36416238
+Runs: 2189672
 
 ========================
 
