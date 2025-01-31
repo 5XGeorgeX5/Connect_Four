@@ -1,0 +1,30 @@
+AI Computer Player wins
+AI Computer Player:
+Average: 244ms
+Max: 1908ms
+Min: 0ms
+Runs: 2869164
+
+AI Computer Player:
+Average: 129ms
+Max: 803ms
+Min: 0ms
+Runs: 2189672
+
+========================
+
+AI Computer Player wins
+AI Computer Player:
+Average: 242ms
+Max: 1834ms
+Min: 0ms
+Runs: 2869164
+
+AI Computer Player:
+Average: 129ms
+Max: 806ms
+Min: 0ms
+Runs: 2189672
+
+========================
+
