@@ -1,14 +1,12 @@
 #include <iostream>
 #include <chrono>
+#include <fstream>
+#include "Player.cpp"
 #include "../ConnectFourBoard.cpp"
 #include "../AI_V1/AI_Player.cpp"
-#include "RandomPlayer.cpp"
-#include "GameManager.cpp"
-#include "Player.cpp"
-#include <fstream>
 using namespace std;
 
-void test(ConnectFourBoard *board, Player *players[2])
+void test(ConnectFourBoard *board, Base_AI_Player *players[2])
 {
     std::ofstream outFile("log.txt", std::ios::app);
     bool finished = false;
@@ -16,6 +14,7 @@ void test(ConnectFourBoard *board, Player *players[2])
     chrono::milliseconds averages[2] = {0ms, 0ms};
     chrono::milliseconds maxes[2] = {0ms, 0ms};
     chrono::milliseconds mins[2] = {chrono::milliseconds::max(), chrono::milliseconds::max()};
+    unsigned long long runs[2] = {0, 0};
 
     while (!finished)
     {
@@ -32,10 +31,12 @@ void test(ConnectFourBoard *board, Player *players[2])
             averages[i] += duration;
             maxes[i] = max(maxes[i], duration);
             mins[i] = min(mins[i], duration);
+            runs[i] += players[i]->get_runs();
             if (board->is_winner())
             {
                 board->display_board();
                 std::cout << "player " << i + 1 << " wins\n";
+                outFile << players[i]->get_name() << " wins\n";
                 finished = true;
                 break;
             }
@@ -43,6 +44,7 @@ void test(ConnectFourBoard *board, Player *players[2])
             {
                 board->display_board();
                 std::cout << "Draw!\n";
+                outFile << "Draw!\n";
                 finished = true;
                 break;
             }
@@ -51,21 +53,25 @@ void test(ConnectFourBoard *board, Player *players[2])
     averages[0] /= (board->moves() + 1) / 2;
     averages[1] /= board->moves() / 2;
 
-    outFile << "Player 1:\n";
+    outFile << players[0]->get_name() << ":\n";
     outFile << "Average: " << averages[0].count() << "ms\n";
     outFile << "Max: " << maxes[0].count() << "ms\n";
     outFile << "Min: " << mins[0].count() << "ms\n";
+    outFile << "Runs: " << runs[0] << "\n\n";
 
-    outFile << "\nPlayer 2:\n";
+    outFile << players[1]->get_name() << ":\n";
     outFile << "Average: " << averages[1].count() << "ms\n";
     outFile << "Max: " << maxes[1].count() << "ms\n";
-    outFile << "Min: " << mins[1].count() << "ms\n\n\n";
+    outFile << "Min: " << mins[1].count() << "ms\n";
+    outFile << "Runs: " << runs[1];
+    outFile << "\n\n========================\n\n";
+    outFile.close();
 }
 
 int main()
 {
     ConnectFourBoard *board = new ConnectFourBoard();
-    Player *players[2];
+    Base_AI_Player *players[2];
 
     players[0] = new AI_Player_V1(board);
     players[1] = new AI_Player_V1(board);

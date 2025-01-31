@@ -21,3 +21,18 @@ int ConnectFourPlayer::get_move()
     std::cin >> move;
     return move;
 }
+
+// Set player symbol and name as Random Computer Player
+RandomPlayer::RandomPlayer() : generator(rd()), distribution(0, 6)
+{
+    this->name = "Random Computer Player";
+    std::cout << "My names is " << name << '\n';
+}
+
+// Generate a random move
+int RandomPlayer::get_move()
+{
+    return distribution(generator);
+}
+
+Base_AI_Player::Base_AI_Player(ConnectFourBoard *board) : board(board) {}

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "../ConnectFourBoard.cpp"
 #include "../AI_V1/AI_Player.cpp"
-#include "RandomPlayer.cpp"
 #include "GameManager.cpp"
 #include "Player.cpp"
 using namespace std;

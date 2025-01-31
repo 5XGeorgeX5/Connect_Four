@@ -1,9 +1,8 @@
 #include "../ConnectFour.hpp"
 
-AI_Player_V1::AI_Player_V1(ConnectFourBoard *bPtr)
+AI_Player_V1::AI_Player_V1(ConnectFourBoard *board) : Base_AI_Player(board)
 {
-    boardPtr = bPtr;
-    this->name = "AI Computer Player";
+    this->name = "AI Computer Player V1";
     std::cout << "My names is " << name << '\n';
 }
 
@@ -11,22 +10,24 @@ int AI_Player_V1::minimax(int alpha, int beta, int depth, int ans[])
 {
     ++runs;
     cut = false;
-    int value, result;
-    if (boardPtr->is_winner())
-        return boardPtr->moves() - 5000;
-    if (boardPtr->moves() == 42)
+
+    if (board->is_winner())
+        return board->moves() - 5000;
+    if (board->moves() == 42)
         return 0;
     if (depth == 11)
     {
-        return (boardPtr->heuristic());
+        return (board->heuristic());
     }
-    result = -5000;
+
+    int value;
+    int result = -5000;
 
     for (int i = 0; i < 7; i++)
     {
-        if (boardPtr->update_board(searchOrder[i]))
+        if (board->update_board(searchOrder[i]))
         {
-            std::string state = boardPtr->to_string();
+            std::string state = board->to_string();
             if (myMap.count(state))
             {
                 value = myMap[state];
@@ -39,12 +40,12 @@ int AI_Player_V1::minimax(int alpha, int beta, int depth, int ans[])
                     myMap[state] = value;
                 }
             }
-            boardPtr->reset(searchOrder[i]);
+            board->reset(searchOrder[i]);
             result = std::max(result, value);
-            alpha = std::max(alpha, value);
-            if (depth == 0 && ans[1] < value)
+            alpha = std::max(alpha, result);
+            if (depth == 0 && ans[1] < result)
             {
-                ans[1] = value;
+                ans[1] = result;
                 ans[0] = searchOrder[i];
             }
             if (beta <= alpha)

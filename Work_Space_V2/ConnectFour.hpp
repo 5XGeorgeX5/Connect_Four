@@ -74,15 +74,26 @@ public:
     int get_move();
 };
 
-class AI_Player_V1 : public Player
+class Base_AI_Player : public Player
+{
+protected:
+    ConnectFourBoard *board;
+    unsigned long long runs = 0;
+
+public:
+    Base_AI_Player(ConnectFourBoard *board);
+    virtual int get_move() = 0;
+    unsigned long long get_runs() { return runs; }
+};
+
+class AI_Player_V1 : public Base_AI_Player
 {
 private:
-    ConnectFourBoard *boardPtr;
-    int minimax(int alpha, int beta, int depth, int ans[]);
     std::unordered_map<std::string, int> myMap;
-    bool cut;
-    unsigned long long runs = 0;
     int searchOrder[7] = {3, 4, 2, 5, 1, 6, 0};
+    bool cut;
+
+    int minimax(int alpha, int beta, int depth, int ans[]);
 
 public:
     // Take a symbol and pass it to parent
@@ -95,7 +106,7 @@ public:
 class GameManager
 {
 private:
-    ConnectFourBoard *boardPtr;
+    ConnectFourBoard *board;
     Player *players[2];
 
 public:
