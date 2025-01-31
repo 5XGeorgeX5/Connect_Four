@@ -61,9 +61,9 @@ int AI_Player_V1::minimax(int alpha, int beta, int depth, int ans[])
 
 int AI_Player_V1::get_move()
 {
+    runs = 0;
     myMap.clear();
-    int ans[2];
-    ans[1] = -5000;
+    int ans[2] = {-1, -5000};
     minimax(-5000, 5000, 0, ans);
     return ans[0];
 }
