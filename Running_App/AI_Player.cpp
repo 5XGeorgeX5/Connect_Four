@@ -6,7 +6,7 @@ AI_Player::AI_Player(ConnectFourBoard *board) : Base_AI_Player(board)
     std::cout << "My names is " << name << '\n';
 }
 
-int AI_Player::minimax(int alpha, int beta, int depth, int ans[])
+int AI_Player::minimax(int alpha, int beta, int depth)
 {
     ++runs;
     cut = false;
@@ -15,7 +15,7 @@ int AI_Player::minimax(int alpha, int beta, int depth, int ans[])
         return board->moves() - 5000;
     if (board->moves() == 42)
         return 0;
-    if (depth == 11)
+    if (depth == 10)
     {
         return (board->heuristic());
     }
@@ -35,7 +35,7 @@ int AI_Player::minimax(int alpha, int beta, int depth, int ans[])
             }
             else
             {
-                value = -minimax(-beta, -alpha, depth + 1, ans);
+                value = -minimax(-beta, -alpha, depth + 1);
                 if (!cut)
                 {
                     myMap[state] = value;
@@ -44,11 +44,6 @@ int AI_Player::minimax(int alpha, int beta, int depth, int ans[])
             board->reset(searchOrder[i]);
             result = std::max(result, value);
             alpha = std::max(alpha, result);
-            if (depth == 0 && ans[1] < result)
-            {
-                ans[1] = result;
-                ans[0] = searchOrder[i];
-            }
             if (beta <= alpha)
             {
                 cut = true;
@@ -64,7 +59,20 @@ int AI_Player::get_move()
 {
     runs = 0;
     myMap.clear();
-    int ans[2] = {-1, -5000};
-    minimax(-5000, 5000, 0, ans);
-    return ans[0];
+    int move = -1;
+    int opponentScore = 5000;
+    for (int i = 0; i < 7; i++)
+    {
+        if (board->update_board(searchOrder[i]))
+        {
+            int value = minimax(-5000, opponentScore, 0);
+            board->reset(searchOrder[i]);
+            if (value < opponentScore)
+            {
+                opponentScore = value;
+                move = searchOrder[i];
+            }
+        }
+    }
+    return move;
 }

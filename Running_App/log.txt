@@ -58,3 +58,33 @@ Runs: 2189672
 
 ========================
 
+AI Computer Player wins
+AI Computer Player:
+Average: 192ms
+Max: 1339ms
+Min: 0ms
+Runs: 2869145
+
+AI Computer Player:
+Average: 113ms
+Max: 694ms
+Min: 0ms
+Runs: 2189653
+
+========================
+
+AI Computer Player wins
+AI Computer Player:
+Average: 194ms
+Max: 1414ms
+Min: 0ms
+Runs: 2869145
+
+AI Computer Player:
+Average: 118ms
+Max: 715ms
+Min: 0ms
+Runs: 2189653
+
+========================
+

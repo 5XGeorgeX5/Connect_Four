@@ -94,7 +94,7 @@ private:
     int searchOrder[7] = {3, 4, 2, 5, 1, 6, 0};
     bool cut;
 
-    int minimax(int alpha, int beta, int depth, int ans[]);
+    int minimax(int alpha, int beta, int depth);
 
 public:
     // Take a symbol and pass it to parent
