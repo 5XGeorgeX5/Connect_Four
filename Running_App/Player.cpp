@@ -17,6 +17,7 @@ ConnectFourPlayer::ConnectFourPlayer(bool isFirst)
 int ConnectFourPlayer::get_move()
 {
     int move;
+    std::cout << name << "'s turn.\n";
     std::cout << "Choose the column (0 to 6): ";
     std::cin >> move;
     return move;

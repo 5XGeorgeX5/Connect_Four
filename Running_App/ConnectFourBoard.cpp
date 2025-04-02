@@ -124,6 +124,16 @@ void ConnectFourBoard::reset(int index)
     n_moves--;
 }
 
+void ConnectFourBoard::resetBoard()
+{
+    n_moves = 0;
+    for (int i = 0; i < 7; i++)
+    {
+        lowest_row[i] = 5;
+    }
+    board = std::string(42, '\0');
+}
+
 int ConnectFourBoard::heuristic()
 {
     int scores[2] = {0};

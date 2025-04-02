@@ -29,6 +29,8 @@ public:
 
     void reset(int index);
 
+    void resetBoard();
+
     int heuristic();
 
     std::string get_state();
