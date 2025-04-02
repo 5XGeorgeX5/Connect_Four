@@ -8,13 +8,12 @@
 class ConnectFourBoard
 {
 private:
-    int n_rows, n_cols;
-    char board[6][7];
+    std::string board = std::string(42, '\0');
     int n_moves = 0;
-    int lowest_row[7];
+    int lowest_row[7] = {5, 5, 5, 5, 5, 5, 5};
 
 public:
-    ConnectFourBoard();
+    ConnectFourBoard() {};
 
     bool update_board(int index);
 
@@ -32,7 +31,7 @@ public:
 
     int heuristic();
 
-    std::string to_string();
+    std::string get_state();
 };
 
 // Players

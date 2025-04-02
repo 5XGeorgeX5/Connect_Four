@@ -1,19 +1,5 @@
 #include "ConnectFour.hpp"
-
-ConnectFourBoard::ConnectFourBoard()
-{
-    n_rows = 6;
-    n_cols = 7;
-    for (int i = 0; i < n_rows; i++)
-    {
-        for (int j = 0; j < n_cols; j++)
-        {
-            board[i][j] = 0;
-        }
-    }
-    for (int j = 0; j < n_cols; j++)
-        lowest_row[j] = 5;
-}
+#define BOARD(i, j) board[(i) * 7 + (j)]
 
 void ConnectFourBoard::display_board()
 {
@@ -23,8 +9,8 @@ void ConnectFourBoard::display_board()
         for (int j = 0; j < 7; j++)
         {
             std::cout << ' ';
-            if (board[i][j])
-                std::cout << board[i][j] << " |";
+            if (BOARD(i, j))
+                std::cout << BOARD(i, j) << " |";
             else
                 std::cout << "  |";
         }
@@ -51,7 +37,7 @@ bool ConnectFourBoard::is_winner()
         counter = 0;
         for (int j = 0; j < 6; j++)
         {
-            if (board[i][j] && board[i][j] == board[i][j + 1])
+            if (BOARD(i, j) && BOARD(i, j) == BOARD(i, j + 1))
             {
                 counter++;
             }
@@ -68,7 +54,7 @@ bool ConnectFourBoard::is_winner()
         counter = 0;
         for (int i = 0; i < 5; i++)
         {
-            if (board[i][j] && board[i][j] == board[i + 1][j])
+            if (BOARD(i, j) && BOARD(i, j) == BOARD(i + 1, j))
             {
                 counter++;
             }
@@ -85,11 +71,11 @@ bool ConnectFourBoard::is_winner()
         // for negative-sloped diagonal
         for (int j = 0; j < 4; j++)
         {
-            if (board[i][j])
+            if (BOARD(i, j))
             {
                 int k;
                 for (k = 1; k <= 3; k++)
-                    if (board[i][j] != board[i + k][j + k])
+                    if (BOARD(i, j) != BOARD(i + k, j + k))
                         break;
                 if (k == 4)
                     return true;
@@ -98,11 +84,11 @@ bool ConnectFourBoard::is_winner()
         // for positive-sloped diagonal
         for (int j = 3; j < 7; j++)
         {
-            if (board[i][j])
+            if (BOARD(i, j))
             {
                 int k;
                 for (k = 1; k <= 3; k++)
-                    if (board[i][j] != board[i + k][j - k])
+                    if (BOARD(i, j) != BOARD(i + k, j - k))
                         break;
                 if (k == 4)
                     return true;
@@ -121,7 +107,7 @@ bool ConnectFourBoard::update_board(int index)
     if (index < 0 || index > 6 || lowest_row[index] == -1)
         return false;
     int x = lowest_row[index]--;
-    board[x][index] = (n_moves % 2) ? 'O' : 'X';
+    BOARD(x, index) = (n_moves % 2) ? 'O' : 'X';
     n_moves++;
     return true;
 }
@@ -134,7 +120,7 @@ bool ConnectFourBoard::game_is_over()
 void ConnectFourBoard::reset(int index)
 {
     int x = ++lowest_row[index];
-    board[x][index] = 0;
+    BOARD(x, index) = '\0';
     n_moves--;
 }
 
@@ -146,17 +132,17 @@ int ConnectFourBoard::heuristic()
     {
         for (int j = 0; j < 7; ++j)
         {
-            if (!board[i][j])
+            if (!BOARD(i, j))
             {
                 continue;
             }
-            index = board[i][j] / 88;
+            index = BOARD(i, j) / 88;
             auto updateScores = [&](int i1, int j1, int i2, int j2, int i3, int j3)
             {
-                int sum = board[i + i1][j + j1] + board[i + i2][j + j2] + board[i + i3][j + j3];
-                if (sum % board[i][j] == 0)
+                int sum = BOARD(i + i1, j + j1) + BOARD(i + i2, j + j2) + BOARD(i + i3, j + j3);
+                if (sum % BOARD(i, j) == 0)
                 {
-                    sum /= board[i][j];
+                    sum /= BOARD(i, j);
                     sum += 1;
                     scores[index] += (sum * sum);
                 }
@@ -229,16 +215,7 @@ int ConnectFourBoard::moves()
     return n_moves;
 }
 
-std::string ConnectFourBoard::to_string()
+std::string ConnectFourBoard::get_state()
 {
-    std::string s = "";
-    s.reserve(42);
-    for (int i = 0; i < n_rows; i++)
-    {
-        for (int j = 0; j < n_cols; j++)
-        {
-            s += board[i][j];
-        }
-    }
-    return s;
+    return board;
 }

@@ -27,7 +27,7 @@ int AI_Player::minimax(int alpha, int beta, int depth, int ans[])
     {
         if (board->update_board(searchOrder[i]))
         {
-            std::string state = board->to_string();
+            std::string state = board->get_state();
             auto it = myMap.find(state);
             if (it != myMap.end())
             {
