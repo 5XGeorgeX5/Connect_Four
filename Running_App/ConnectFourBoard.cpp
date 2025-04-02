@@ -39,12 +39,12 @@ bool ConnectFourBoard::is_winner()
         {
             if (BOARD(i, j) && BOARD(i, j) == BOARD(i, j + 1))
             {
-                counter++;
+                ++counter;
+                if (counter == 3)
+                    return true;
             }
             else
                 counter = 0;
-            if (counter == 3)
-                return true;
         }
     }
 
@@ -56,12 +56,12 @@ bool ConnectFourBoard::is_winner()
         {
             if (BOARD(i, j) && BOARD(i, j) == BOARD(i + 1, j))
             {
-                counter++;
+                ++counter;
+                if (counter == 3)
+                    return true;
             }
             else
                 counter = 0;
-            if (counter == 3)
-                return true;
         }
     }
 
