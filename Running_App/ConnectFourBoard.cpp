@@ -1,6 +1,76 @@
 #include "ConnectFour.hpp"
 #define BOARD(i, j) board[(i) * 7 + (j)]
 
+static const int fourInRow[69][4] = {{0, 1, 2, 3},
+                                     {0, 7, 14, 21},
+                                     {0, 8, 16, 24},
+                                     {1, 2, 3, 4},
+                                     {1, 8, 15, 22},
+                                     {1, 9, 17, 25},
+                                     {2, 3, 4, 5},
+                                     {2, 9, 16, 23},
+                                     {2, 10, 18, 26},
+                                     {3, 4, 5, 6},
+                                     {3, 10, 17, 24},
+                                     {3, 11, 19, 27},
+                                     {3, 9, 15, 21},
+                                     {4, 11, 18, 25},
+                                     {4, 10, 16, 22},
+                                     {5, 12, 19, 26},
+                                     {5, 11, 17, 23},
+                                     {6, 13, 20, 27},
+                                     {6, 12, 18, 24},
+                                     {7, 8, 9, 10},
+                                     {7, 14, 21, 28},
+                                     {7, 15, 23, 31},
+                                     {8, 9, 10, 11},
+                                     {8, 15, 22, 29},
+                                     {8, 16, 24, 32},
+                                     {9, 10, 11, 12},
+                                     {9, 16, 23, 30},
+                                     {9, 17, 25, 33},
+                                     {10, 11, 12, 13},
+                                     {10, 17, 24, 31},
+                                     {10, 18, 26, 34},
+                                     {10, 16, 22, 28},
+                                     {11, 18, 25, 32},
+                                     {11, 17, 23, 29},
+                                     {12, 19, 26, 33},
+                                     {12, 18, 24, 30},
+                                     {13, 20, 27, 34},
+                                     {13, 19, 25, 31},
+                                     {14, 15, 16, 17},
+                                     {14, 21, 28, 35},
+                                     {14, 22, 30, 38},
+                                     {15, 16, 17, 18},
+                                     {15, 22, 29, 36},
+                                     {15, 23, 31, 39},
+                                     {16, 17, 18, 19},
+                                     {16, 23, 30, 37},
+                                     {16, 24, 32, 40},
+                                     {17, 18, 19, 20},
+                                     {17, 24, 31, 38},
+                                     {17, 25, 33, 41},
+                                     {17, 23, 29, 35},
+                                     {18, 25, 32, 39},
+                                     {18, 24, 30, 36},
+                                     {19, 26, 33, 40},
+                                     {19, 25, 31, 37},
+                                     {20, 27, 34, 41},
+                                     {20, 26, 32, 38},
+                                     {21, 22, 23, 24},
+                                     {22, 23, 24, 25},
+                                     {23, 24, 25, 26},
+                                     {24, 25, 26, 27},
+                                     {28, 29, 30, 31},
+                                     {29, 30, 31, 32},
+                                     {30, 31, 32, 33},
+                                     {31, 32, 33, 34},
+                                     {35, 36, 37, 38},
+                                     {36, 37, 38, 39},
+                                     {37, 38, 39, 40},
+                                     {38, 39, 40, 41}};
+
 void ConnectFourBoard::display_board()
 {
     for (int i = 0; i < 6; i++)
@@ -29,74 +99,21 @@ bool ConnectFourBoard::is_winner()
         return false;
     }
 
-    int counter = 0;
-
-    // checking the rows winning
-    for (int i = 0; i < 6; i++)
+    char current;
+    for (int i = 0; i < 69; i++)
     {
-        counter = 0;
-        for (int j = 0; j < 6; j++)
+        current = board[fourInRow[i][0]];
+        if (current &&
+            current == board[fourInRow[i][1]] &&
+            current == board[fourInRow[i][2]] &&
+            current == board[fourInRow[i][3]])
         {
-            if (BOARD(i, j) && BOARD(i, j) == BOARD(i, j + 1))
-            {
-                ++counter;
-                if (counter == 3)
-                    return true;
-            }
-            else
-                counter = 0;
-        }
-    }
-
-    // checking the columns winning
-    for (int j = 0; j < 7; j++)
-    {
-        counter = 0;
-        for (int i = 0; i < 5; i++)
-        {
-            if (BOARD(i, j) && BOARD(i, j) == BOARD(i + 1, j))
-            {
-                ++counter;
-                if (counter == 3)
-                    return true;
-            }
-            else
-                counter = 0;
-        }
-    }
-
-    // Checking the diagonal winning
-    for (int i = 0; i < 3; i++)
-    {
-        // for negative-sloped diagonal
-        for (int j = 0; j < 4; j++)
-        {
-            if (BOARD(i, j))
-            {
-                int k;
-                for (k = 1; k <= 3; k++)
-                    if (BOARD(i, j) != BOARD(i + k, j + k))
-                        break;
-                if (k == 4)
-                    return true;
-            }
-        }
-        // for positive-sloped diagonal
-        for (int j = 3; j < 7; j++)
-        {
-            if (BOARD(i, j))
-            {
-                int k;
-                for (k = 1; k <= 3; k++)
-                    if (BOARD(i, j) != BOARD(i + k, j - k))
-                        break;
-                if (k == 4)
-                    return true;
-            }
+            return true;
         }
     }
     return false;
 }
+
 bool ConnectFourBoard::is_draw()
 {
     return (n_moves == 42 && !is_winner());
@@ -137,87 +154,21 @@ void ConnectFourBoard::resetBoard()
 int ConnectFourBoard::heuristic()
 {
     int scores[2] = {0};
-    int index;
-    for (int i = 0; i < 6; ++i)
+    for (int i = 0; i < 69; ++i)
     {
-        for (int j = 0; j < 7; ++j)
+        int sum = board[fourInRow[i][0]] + board[fourInRow[i][1]] + board[fourInRow[i][2]] + board[fourInRow[i][3]];
+        if (sum % 88 == 0)
         {
-            if (!BOARD(i, j))
-            {
-                continue;
-            }
-            index = BOARD(i, j) / 88;
-            auto updateScores = [&](int i1, int j1, int i2, int j2, int i3, int j3)
-            {
-                int sum = BOARD(i + i1, j + j1) + BOARD(i + i2, j + j2) + BOARD(i + i3, j + j3);
-                if (sum % BOARD(i, j) == 0)
-                {
-                    sum /= BOARD(i, j);
-                    sum += 1;
-                    scores[index] += (sum * sum);
-                }
-            };
-            if (j < 4)
-            {
-                updateScores(0, 1, 0, 2, 0, 3);
-            }
-            if (j > 2)
-            {
-                updateScores(0, -1, 0, -2, 0, -3);
-            }
-            if (j > 0 && j < 5)
-            {
-                updateScores(0, -1, 0, 1, 0, 2);
-            }
-            if (j > 1 && j < 6)
-            {
-                updateScores(0, -1, 0, -2, 0, 1);
-            }
-            if (i < 3)
-            {
-                updateScores(1, 0, 2, 0, 3, 0);
-                updateScores(1, 0, 2, 0, 3, 0);
-                updateScores(1, 0, 2, 0, 3, 0);
-            }
-            if (i < 3 && j < 4)
-            {
-                updateScores(1, 1, 2, 2, 3, 3);
-            }
-            if (i > 2 && j > 2)
-            {
-                updateScores(-1, -1, -2, -2, -3, -3);
-            }
-            if (i < 3 && j > 2)
-            {
-                updateScores(1, -1, 2, -2, 3, -3);
-            }
-            if (i > 2 && j < 4)
-            {
-                updateScores(-1, 1, -2, 2, -3, 3);
-            }
-            if (i > 0 && i < 4 && j > 0 && j < 5)
-            {
-                updateScores(-1, -1, 1, 1, 2, 2);
-            }
-            if (i > 0 && i < 4 && j > 1 && j < 6)
-            {
-                updateScores(-1, 1, 1, -1, 2, -2);
-            }
-            if (i > 1 && i < 5 && j > 1 && j < 6)
-            {
-                updateScores(-1, -1, -2, -2, 1, 1);
-            }
-            if (i > 1 && i < 5 && j > 1 && j < 5)
-            {
-                updateScores(-1, 1, -2, 2, 1, -1);
-            }
+            sum /= 88;
+            scores[1] += sum * sum * sum;
+        }
+        else if (sum % 79 == 0)
+        {
+            sum /= 79;
+            scores[0] += sum * sum * sum;
         }
     }
-    if (n_moves & 1)
-    {
-        return (scores[0] - scores[1]);
-    }
-    return (scores[1] - scores[0]);
+    return (n_moves & 1) ? (scores[0] - scores[1]) : (scores[1] - scores[0]);
 }
 
 int ConnectFourBoard::moves()
