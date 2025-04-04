@@ -101,10 +101,9 @@ bool ConnectFourBoard::is_winner()
         return false;
     }
 
-    char current;
     for (int i = 0; i < 69; i++)
     {
-        current = board[fourInRow[i][0]];
+        char current = board[fourInRow[i][0]];
         if (current &&
             current == board[fourInRow[i][1]] &&
             current == board[fourInRow[i][2]] &&
@@ -127,7 +126,7 @@ bool ConnectFourBoard::update_board(int index)
         return false;
     int x = lowest_row[index]--;
     BOARD(x, index) = (n_moves % 2) ? 'O' : 'X';
-    n_moves++;
+    ++n_moves;
     return true;
 }
 
@@ -140,7 +139,7 @@ void ConnectFourBoard::reset(int index)
 {
     int x = ++lowest_row[index];
     BOARD(x, index) = '\0';
-    n_moves--;
+    --n_moves;
 }
 
 void ConnectFourBoard::resetBoard()
@@ -162,15 +161,16 @@ int ConnectFourBoard::heuristic()
         if (sum % 88 == 0)
         {
             sum /= 88;
-            scores[1] += sum * sum * sum;
+            scores[0] += sum * sum * sum;
         }
         else if (sum % 79 == 0)
         {
             sum /= 79;
-            scores[0] += sum * sum * sum;
+            scores[1] += sum * sum * sum;
         }
     }
-    return (n_moves & 1) ? (scores[0] - scores[1]) : (scores[1] - scores[0]);
+    bool player = (n_moves & 1);
+    return (scores[player] - scores[!player]);
 }
 
 int ConnectFourBoard::moves()
