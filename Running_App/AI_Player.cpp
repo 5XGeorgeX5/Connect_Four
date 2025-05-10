@@ -6,6 +6,21 @@ AI_Player::AI_Player(ConnectFourBoard *board) : Base_AI_Player(board)
     std::cout << "My names is " << name << '\n';
 }
 
+std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> AI_Player::valideMoves()
+{
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> moves;
+    for (int i = 0; i < 7; i++)
+    {
+        if (board->valid_move(i))
+        {
+            board->update_board(i);
+            moves.push(std::make_pair(board->heuristic(), i));
+            board->reset(i);
+        }
+    }
+    return moves;
+}
+
 int AI_Player::minimax(int alpha, int beta, int depth)
 {
     ++runs;
@@ -22,33 +37,35 @@ int AI_Player::minimax(int alpha, int beta, int depth)
 
     int value;
     int result = -5000;
+    auto moves = valideMoves();
 
-    for (int i = 0; i < 7; i++)
+    while (!moves.empty())
     {
-        if (board->update_board(searchOrder[i]))
+        std::pair<int, int> movePair = moves.top();
+        moves.pop();
+        board->update_board(movePair.second);
+
+        std::string state = board->get_state();
+        auto it = myMap.find(state);
+        if (it != myMap.end())
         {
-            std::string state = board->get_state();
-            auto it = myMap.find(state);
-            if (it != myMap.end())
+            value = it->second;
+        }
+        else
+        {
+            value = -minimax(-beta, -alpha, depth + 1);
+            if (!cut)
             {
-                value = it->second;
+                myMap[state] = value;
             }
-            else
-            {
-                value = -minimax(-beta, -alpha, depth + 1);
-                if (!cut)
-                {
-                    myMap[state] = value;
-                }
-            }
-            board->reset(searchOrder[i]);
-            result = std::max(result, value);
-            alpha = std::max(alpha, result);
-            if (beta <= alpha)
-            {
-                cut = true;
-                return (alpha);
-            }
+        }
+        board->reset(movePair.second);
+        result = std::max(result, value);
+        alpha = std::max(alpha, result);
+        if (beta <= alpha)
+        {
+            cut = true;
+            return (alpha);
         }
     }
 
@@ -61,17 +78,18 @@ int AI_Player::get_move()
     myMap.clear();
     int move = -1;
     int opponentScore = 5000;
-    for (int i = 0; i < 7; i++)
+    auto moves = valideMoves();
+    while (!moves.empty())
     {
-        if (board->update_board(searchOrder[i]))
+        std::pair<int, int> movePair = moves.top();
+        moves.pop();
+        board->update_board(movePair.second);
+        int value = minimax(-5000, opponentScore, 0);
+        board->reset(movePair.second);
+        if (value < opponentScore)
         {
-            int value = minimax(-5000, opponentScore, 0);
-            board->reset(searchOrder[i]);
-            if (value < opponentScore)
-            {
-                opponentScore = value;
-                move = searchOrder[i];
-            }
+            opponentScore = value;
+            move = movePair.second;
         }
     }
     return move;

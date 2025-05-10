@@ -15,10 +15,11 @@ void GameManager::run()
     while (!board->game_is_over())
     {
         int move = players[turn]->get_move();
-        while (!board->update_board(move))
+        while (!board->valid_move(move))
         {
             move = players[turn]->get_move();
         }
+        board->update_board(move);
         board->display_board();
         if (board->is_winner())
         {

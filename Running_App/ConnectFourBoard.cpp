@@ -120,14 +120,16 @@ bool ConnectFourBoard::is_draw()
     return (n_moves == 42 && !is_winner());
 }
 
-bool ConnectFourBoard::update_board(int index)
+bool ConnectFourBoard::valid_move(int index)
 {
-    if (index < 0 || index > 6 || lowest_row[index] == -1)
-        return false;
+    return (index >= 0 && index < 7 && lowest_row[index] != -1);
+}
+
+void ConnectFourBoard::update_board(int index)
+{
     int x = lowest_row[index]--;
     BOARD(x, index) = (n_moves % 2) ? 'O' : 'X';
     ++n_moves;
-    return true;
 }
 
 bool ConnectFourBoard::game_is_over()

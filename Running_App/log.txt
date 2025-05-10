@@ -118,3 +118,63 @@ Runs: 2633965
 
 ========================
 
+AI Computer Player wins
+AI Computer Player:
+Average: 111ms
+Max: 670ms
+Min: 0ms
+Runs: 591746
+
+AI Computer Player:
+Average: 108ms
+Max: 778ms
+Min: 0ms
+Runs: 517975
+
+========================
+
+AI Computer Player wins
+AI Computer Player:
+Average: 104ms
+Max: 631ms
+Min: 0ms
+Runs: 591746
+
+AI Computer Player:
+Average: 102ms
+Max: 730ms
+Min: 0ms
+Runs: 517975
+
+========================
+
+AI Computer Player wins
+AI Computer Player:
+Average: 109ms
+Max: 656ms
+Min: 0ms
+Runs: 591746
+
+AI Computer Player:
+Average: 106ms
+Max: 747ms
+Min: 0ms
+Runs: 517975
+
+========================
+
+AI Computer Player wins
+AI Computer Player:
+Average: 110ms
+Max: 654ms
+Min: 0ms
+Runs: 591746
+
+AI Computer Player:
+Average: 110ms
+Max: 801ms
+Min: 0ms
+Runs: 517975
+
+========================
+

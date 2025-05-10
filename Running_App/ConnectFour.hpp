@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <random>
-#include <unordered_map>
+#include <bits/stdc++.h>
 
 class ConnectFourBoard
 {
@@ -15,17 +15,19 @@ private:
 public:
     ConnectFourBoard() {};
 
-    bool update_board(int index);
-
     bool is_winner();
 
     bool is_draw();
 
     bool game_is_over();
 
+    bool valid_move(int index);
+
     int moves();
 
     void display_board();
+
+    void update_board(int index);
 
     void reset(int index);
 
@@ -95,6 +97,8 @@ private:
     bool cut;
 
     int minimax(int alpha, int beta, int depth);
+
+    std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> valideMoves();
 
 public:
     // Take a symbol and pass it to parent

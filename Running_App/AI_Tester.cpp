@@ -22,10 +22,11 @@ void test(ConnectFourBoard *board, Base_AI_Player *players[2])
         {
             auto start = chrono::high_resolution_clock::now();
             int move = players[i]->get_move();
-            while (!board->update_board(move))
+            while (!board->valid_move(move))
             {
                 move = players[i]->get_move();
             }
+            board->update_board(move);
             auto stop = chrono::high_resolution_clock::now();
             auto duration = chrono::duration_cast<chrono::milliseconds>(stop - start);
             averages[i] += duration;
